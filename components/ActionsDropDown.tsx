@@ -1,6 +1,13 @@
 "use client";
 import React, { useState } from "react";
-import { Dialog } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,6 +16,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
 import Image from "next/image";
 import { Models } from "node-appwrite";
 import { actionsDropdownItems } from "@/constants";
@@ -20,12 +28,24 @@ const ActionsDropDown = ({ file }: { file: Models.Document }) => {
   const [isDropDownOpen, setDropDownOpen] = useState(false);
   const [action, setAction] = useState<ActionType | null>(null);
 
+  const renderDialogContent = () => {
+    
 
-  const renderDialogContent = ()=>{
-    return <DialogContent>
+    return (
+      <DialogContent className="shad-dialog button">
+        <DialogHeader className="flex flex-col gap-3">
+          <DialogTitle className="text-center text-light-100">
+            Are you absolutely sure?
+          </DialogTitle>
+          <DialogDescription>
+            This action cannot be undone. This will permanently delete your
+            account and remove your data from our servers.
+          </DialogDescription>
+        </DialogHeader>
+      </DialogContent>
+    );
+  };
 
-    </DialogContent>
-  }
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DropdownMenu open={isDropDownOpen} onOpenChange={setDropDownOpen}>
@@ -86,6 +106,8 @@ const ActionsDropDown = ({ file }: { file: Models.Document }) => {
           ))}
         </DropdownMenuContent>
       </DropdownMenu>
+
+      {renderDialogContent()}
     </Dialog>
   );
 };
